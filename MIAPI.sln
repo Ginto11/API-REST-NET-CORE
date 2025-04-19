@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIAPI", "MIAPI\MIAPI.csproj", "{2EFB87D0-8FBA-4754-A0D5-34D3665CDB4B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EFB87D0-8FBA-4754-A0D5-34D3665CDB4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EFB87D0-8FBA-4754-A0D5-34D3665CDB4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EFB87D0-8FBA-4754-A0D5-34D3665CDB4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EFB87D0-8FBA-4754-A0D5-34D3665CDB4B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B96C2CCB-8898-40AF-BA6A-03D49325A5B5}
+	EndGlobalSection
+EndGlobal
