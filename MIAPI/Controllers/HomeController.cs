@@ -9,7 +9,7 @@ namespace MIAPI.Controllers
     public class HomeController : ControllerBase
     {
         [HttpGet]
-        public Task<Usuario> Get()
+        public async Task<ActionResult<Usuario>> Get()
         {
             var usuario = new Usuario { Nombre = "Camilo", Clave ="123", Correo ="x@gmail.com" };
             return usuario;
