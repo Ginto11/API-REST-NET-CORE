@@ -1,56 +1,86 @@
-﻿using MIAPI.Data;
+﻿using MIAPI.Authentication;
+using MIAPI.Data;
+using MIAPI.Dtos;
 using MIAPI.Interfaces;
 using MIAPI.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MIAPI.Services
 {
     public class UsuarioService : ICRUD <Usuario>
     {
-        private readonly DataContext _context;
+        /*INYECTA DataContext EL CUAL PERMITE TRABAJAR CON LA BD*/
+        private readonly DataContext context;
         public UsuarioService(DataContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
+        /*LISTA DE USUARIOS*/
         public async Task<IEnumerable<Usuario>> GetAll()
         {
-            return await _context.Usuario.Include(u => u.Rol).ToListAsync();
+            return await context.Usuario.Include(u => u.Rol).ToListAsync();
         }
 
+        /*CREA UN USUARIO*/
         public async Task<Usuario> Create(Usuario usuario)
         {
-            _context.Usuario.Add(usuario);
-            await _context.SaveChangesAsync();
+
+            context.Usuario.Add(usuario);
+            await context.SaveChangesAsync();
             return usuario;
         }
 
+        /*BUSCA UN USUARIO POR ID*/
         public async Task<Usuario?> GetById(int id)
         {
-            return await _context.Usuario.FirstOrDefaultAsync(u => u.Id == id);
+            return await context.Usuario.Include(u => u.Rol).FirstOrDefaultAsync(u => u.Id == id);
         }
 
-
+        /*ACTUALIZA UN USUARIO*/
         public async Task Update(Usuario usuario)
         {
             var usuarioPorActualizar = await GetById(usuario.Id);
 
             if(usuarioPorActualizar != null)
             {
-                _context.Usuario.Update(usuario);
-                await _context.SaveChangesAsync();
+                context.Usuario.Update(usuario);
+                await context.SaveChangesAsync();
             }
         }
 
+        /*ELIMINA UN USUARIO*/
         public async Task Delete(int id)
         {
             var usuarioPorEliminar = await GetById(id);
 
             if(usuarioPorEliminar != null)
             {
-                _context.Usuario.Remove(usuarioPorEliminar);
-                await _context.SaveChangesAsync();
+                context.Usuario.Remove(usuarioPorEliminar);
+                await context.SaveChangesAsync();
             }
+        }
+
+        /*BUSCA POR EMAIL Y CONTRASEÑA*/
+        public async Task<Usuario?> FindByEmailAndPass(string correo, string clave)
+        {
+            var usuarioEncontrado = await context.Usuario
+                .FirstOrDefaultAsync(u => u.Correo == correo && u.Clave == clave);
+
+            if(usuarioEncontrado != null)
+            {
+                return await GetById(usuarioEncontrado.Id);
+            }
+            return null;
+
+        }
+
+        /*BUSCA POR EMAIL*/
+        public async Task<Usuario?> ValidateEmail(string correo)
+        {
+            return await context.Usuario.FirstOrDefaultAsync(u => u.Correo == correo);
         }
 
     }

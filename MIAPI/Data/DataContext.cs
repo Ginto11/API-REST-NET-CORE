@@ -21,6 +21,14 @@ namespace MIAPI.Data
                 .Property(modelo => modelo.FechaCreacion)
                 .HasDefaultValueSql("GETDATE()");
 
+            modelBuilder.Entity<Usuario>()
+                .Property(modelo => modelo.RolId)
+                .HasDefaultValue(2);
+
+            modelBuilder.Entity<Usuario>()
+                .Property(modelo => modelo.IsActive)
+                .HasDefaultValue(true);
+
 
             modelBuilder.Seed();
 

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace MIAPI.Models
 {
@@ -15,6 +16,7 @@ namespace MIAPI.Models
         [Column("nombre")]
         public required string Nombre { get; set; }
 
+        [JsonIgnore]
         public IEnumerable<Usuario>? Usuarios { get; set; }
     }
 }

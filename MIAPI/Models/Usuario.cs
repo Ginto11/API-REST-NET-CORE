@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace MIAPI.Models
 {
@@ -16,6 +17,7 @@ namespace MIAPI.Models
         public required string Nombre { get; set; }
 
         [Required]
+        [EmailAddress]
         [StringLength(100)]
         [Column("correo")]
         public required string Correo { get; set; }
@@ -28,6 +30,9 @@ namespace MIAPI.Models
         [Required]
         [Column("id_rol")]
         public int RolId { get; set; }
+
+        [Column("isActive")]
+        public bool IsActive { get; set; } = true;
 
         [Column("fecha_creacion")]
         public DateTime FechaCreacion { get; set; }

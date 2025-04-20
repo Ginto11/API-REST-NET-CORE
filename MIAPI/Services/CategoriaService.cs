@@ -9,28 +9,34 @@ namespace MIAPI.Services
 {
     public class CategoriaService : ICRUD <Categoria>
     {
-        private readonly DataContext _context;
+
+        /*INYECTA DataContext EL CUAL PERMITE TRABAJAR CON LA BD*/
+        private readonly DataContext context;
         public CategoriaService(DataContext context) {
-            _context = context;
+            this.context = context;
         }
 
+        /*LISTA DE CATEGORIAS*/
         public async Task<IEnumerable<Categoria>> GetAll()
         {
-            return await _context.Categoria.Include(c => c.Productos).ToListAsync();
+            return await context.Categoria.Include(c => c.Productos).ToListAsync();
         }
 
+        /*BUSCAR CATEGORIA POR ID*/
         public async Task<Categoria?> GetById(int id)
         {
-            return await _context.Categoria.Include(c => c.Productos).FirstOrDefaultAsync(c => c.Id == id);
+            return await context.Categoria.Include(c => c.Productos).FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        /*CREAR UNA CATEGORIA*/
         public async Task<Categoria> Create(Categoria categoria)
         {
-            _context.Categoria.Add(categoria);
-            await _context.SaveChangesAsync();
+            context.Categoria.Add(categoria);
+            await context.SaveChangesAsync();
             return categoria;
         }
 
+        /*ACTUALIZA UNA CATEGORIA*/
         public async Task Update(Categoria categoria)
         {
             var categoriaExistente = await GetById(categoria.Id);
@@ -40,20 +46,21 @@ namespace MIAPI.Services
                 categoriaExistente.Nombre = categoria.Nombre;
                 categoriaExistente.Descripcion = categoria.Descripcion;
 
-                _context.Categoria.Update(categoriaExistente);
-                await _context.SaveChangesAsync();
+                context.Categoria.Update(categoriaExistente);
+                await context.SaveChangesAsync();
 
             }
         }
 
+        /*ELIMINA UNA CATEGORIA*/
         public async Task Delete(int id)
         {
             var categoriaPorEliminar = await GetById(id);
 
             if(categoriaPorEliminar != null)
             {
-                _context.Categoria.Remove(categoriaPorEliminar);
-                await _context.SaveChangesAsync();
+                context.Categoria.Remove(categoriaPorEliminar);
+                await context.SaveChangesAsync();
             }
         }
 

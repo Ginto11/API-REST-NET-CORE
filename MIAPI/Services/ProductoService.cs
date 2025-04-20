@@ -7,31 +7,36 @@ namespace MIAPI.Services
 {
     public class ProductoService : ICRUD <Producto>
     {
-        private readonly DataContext _context;
+        /*INYECTA DataContext EL CUAL PERMITE TRABAJAR CON LA BD*/
+        private readonly DataContext context;
 
         public ProductoService(DataContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
+        /*LISTA DE PRODUCTOS*/
         public async Task<IEnumerable<Producto>> GetAll()
         {
-            return await _context.Producto.Include(p => p.Categoria).ToListAsync();
+            return await context.Producto.Include(p => p.Categoria).ToListAsync();
         }
 
+        /*BUSCAR PRODUCTO POR ID*/
         public async Task<Producto?> GetById(int id)
         {
-            return await _context.Producto.Include(p => p.Categoria).FirstOrDefaultAsync(p => p.Id == id);
+            return await context.Producto.Include(p => p.Categoria).FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        /*CREA UN PRODUCTO*/
         public async Task<Producto> Create(Producto producto)
         {
-            _context.Producto.Add(producto);
-            await _context.SaveChangesAsync();
+            context.Producto.Add(producto);
+            await context.SaveChangesAsync();
 
             return producto;
         }
 
+        /*ACTUALIZA UN PRODCUTO*/
         public async Task Update(Producto producto)
         {
             var productoExistente = await GetById(producto.Id);
@@ -42,21 +47,21 @@ namespace MIAPI.Services
                 productoExistente.Descripcion = producto.Descripcion;
                 productoExistente.CategoriaId = producto.CategoriaId;
 
-                _context.Producto.Update(productoExistente);
-                await _context.SaveChangesAsync();
+                context.Producto.Update(productoExistente);
+                await context.SaveChangesAsync();
 
             }
         }
 
-
+        /*ELIMINA UN PRODUCTO*/
         public async Task Delete(int id)
         {
             var productoAEliminar = await GetById(id);
 
             if(productoAEliminar != null)
             {
-                _context.Producto.Remove(productoAEliminar);
-                await _context.SaveChangesAsync();
+                context.Producto.Remove(productoAEliminar);
+                await context.SaveChangesAsync();
             }
         }
 
