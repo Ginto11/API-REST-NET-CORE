@@ -20,6 +20,7 @@ namespace MIAPI.Controllers
 
         /*METODO QUE DEVUELVE LISTA DE CATEGORIAS*/
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<Categoria>> ListarCategorias()
@@ -29,6 +30,7 @@ namespace MIAPI.Controllers
 
         /*METODO QUE PERMITE BUSCAR LA CATEGORIA POR ID*/
         [HttpGet]
+        [Authorize]
         [Route("{id}")]
         [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
@@ -46,7 +48,6 @@ namespace MIAPI.Controllers
         /*METODO QUE PERMITE AGREGAR UNA CATEGORIA*/
         [HttpPost]
         [Authorize(Roles = "Administrador")]
-        [Authorize(Roles = "Empleado")]
         [ProducesResponseType(typeof(Categoria), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

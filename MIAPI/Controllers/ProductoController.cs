@@ -1,12 +1,8 @@
 ﻿using MIAPI.Authentication;
-using MIAPI.Data;
 using MIAPI.Models;
 using MIAPI.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.Xml;
 
 namespace MIAPI.Controllers
 {
@@ -17,9 +13,6 @@ namespace MIAPI.Controllers
         /*INYECTA EL SERVICIO ProductoService EL CUAL PERMITE LA CONEXION CON LA BASE DE DATOS*/
         private readonly ProductoService productoService;
 
-        /*INYECTA EL SERVIIO AuthService EL CUAL PERMITE USAR CIERTAS UTILIDADES*/
-        private readonly AuthService authService;
-
         public ProductoController(ProductoService service, AuthService authService)
         {
             this.productoService = service;
@@ -28,16 +21,17 @@ namespace MIAPI.Controllers
 
         /*METODO QUE REGRESA UNA LISTA DE PRODUCTOS*/
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IEnumerable<Producto>> ListaProductos()
         {
-            authService.GetUsuarioFromToken();
             return await productoService.GetAll();
         }
 
         /*METODO QUE PERMITE BUSCAR UN PRODUCTO POR ID*/
         [HttpGet]
+        [Authorize]
         [Route("{id}")]
         [ProducesResponseType(typeof(Producto),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]
@@ -55,7 +49,6 @@ namespace MIAPI.Controllers
 
         /*METODO QUE PERMIRE CREAR UN NUEVO PRODUCTO*/
         [HttpPost]
-        [Authorize(Roles = "Empleado")]
         [Authorize(Roles = "Administrador")]
         [ProducesResponseType(typeof(Producto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -69,7 +62,6 @@ namespace MIAPI.Controllers
         /*METODO QUE PERMITE ACTUALIZAR UN PRODUCTO*/
         [HttpPut]
         [Route("{id}")]
-        [Authorize(Roles = "Empleado")]
         [Authorize(Roles = "Administrador")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
@@ -93,7 +85,6 @@ namespace MIAPI.Controllers
         /*METODO QUE PERMITE ELIMINAR UN PRODCUTO*/
         [HttpDelete]
         [Route("{id}")]
-        [Authorize(Roles = "Empleado")]
         [Authorize(Roles = "Administrador")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
