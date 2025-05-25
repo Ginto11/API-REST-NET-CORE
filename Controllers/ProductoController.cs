@@ -13,10 +13,9 @@ namespace MIAPI.Controllers
         /*INYECTA EL SERVICIO ProductoService EL CUAL PERMITE LA CONEXION CON LA BASE DE DATOS*/
         private readonly ProductoService productoService;
 
-        public ProductoController(ProductoService service, AuthService authService)
+        public ProductoController(ProductoService service)
         {
             this.productoService = service;
-            this.authService = authService;
         }
 
         /*METODO QUE REGRESA UNA LISTA DE PRODUCTOS*/

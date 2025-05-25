@@ -53,7 +53,7 @@ namespace MIAPI.Authentication
             {
                 new Claim(ClaimTypes.Name, usuario.Nombre),
                 new Claim(ClaimTypes.Email, usuario.Correo),
-                new Claim(ClaimTypes.Role, usuario.Rol.Nombre)
+                new Claim(ClaimTypes.Role, usuario.Rol!.Nombre)
             };
             //CREAR EL TOKEN
             var token = new JwtSecurityToken(
